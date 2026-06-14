@@ -459,4 +459,38 @@ td{font-family:var(--f-mono);font-size:11px;padding:9px 8px;border-bottom:1px so
 @keyframes deployscan{0%{width:10%}85%{width:90%}100%{width:90%}}
 .pill.sig{background:var(--accent);color:var(--accent-ink)}
 @media(max-width:720px){.appscreen{flex-direction:column}.appscreen .rail{flex-direction:row;width:auto;border-right:0;border-bottom:1px solid var(--line)}.appscreen .rail .sp{display:none}}
+
+/* ===== additional dynamic components (41–46) — net-new types, Nothing-flavored ===== */
+@keyframes llin{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+/* 41 rotary knob (drag) — Teenage-Engineering / hardware feel */
+.knobwrap{text-align:center}
+.knob{width:78px;height:78px;border-radius:50%;border:1px solid var(--line-2);background:var(--surface);position:relative;margin:0 auto;cursor:grab;touch-action:none}
+.knob:active{cursor:grabbing}
+.knob::after{content:"";position:absolute;inset:11px;border-radius:50%;border:1px solid var(--line)}
+.knob .ind{position:absolute;left:50%;top:50%;width:2px;height:30px;background:var(--display);transform-origin:50% 100%;transform:translate(-50%,-100%) rotate(var(--a,-135deg))}
+.knobval{font-family:var(--f-display);font-weight:500;font-size:22px;color:var(--display);margin-top:14px}
+/* 42 dot-matrix spinner */
+.dspin{position:relative;width:50px;height:50px;margin:14px auto}
+.dspin i{position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:var(--display);opacity:.15;animation:dfade 1s linear infinite}
+@keyframes dfade{0%{opacity:1}70%,100%{opacity:.15}}
+/* 43 verification (OTP) input */
+.otp{display:flex;gap:8px}
+.otp input{width:40px;height:50px;text-align:center;background:transparent;border:1px solid var(--line-2);border-radius:var(--r-sm);color:var(--display);font-family:var(--f-display);font-weight:500;font-size:22px;outline:0;transition:border-color .2s var(--ease)}
+.otp input:focus{border-color:var(--primary)}
+.otp.done input{border-color:var(--success);color:var(--success)}
+/* 44 live counter (count-up) */
+.ticker .tval{font-family:var(--f-display);font-weight:500;font-size:40px;color:var(--display);line-height:1}
+.ticker .tdelta{font-family:var(--f-mono);font-size:11px;margin-top:8px;letter-spacing:.04em}
+.ticker .tdelta.up{color:var(--success)} .ticker .tdelta.dn{color:var(--error)}
+/* 45 activity stream */
+.stream{display:flex;flex-direction:column;gap:7px;height:150px;overflow:hidden;font-family:var(--f-mono);font-size:10px}
+.stream .s-l{display:flex;gap:8px;color:var(--secondary);animation:llin .3s var(--ease)}
+.stream .s-l .t{color:var(--muted);flex-shrink:0}
+.stream .s-l.sig{color:var(--accent-text)}
+/* 46 copy field */
+.copyfield{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:var(--r-sm);padding:7px 7px 7px 12px}
+.copyfield code{flex:1;min-width:0;font-family:var(--f-mono);font-size:11px;color:var(--primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.copyfield .cbtn{flex-shrink:0;font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line-2);border-radius:5px;padding:6px 10px;background:transparent;color:var(--secondary);cursor:pointer;transition:opacity .2s var(--ease)}
+.copyfield .cbtn:hover{opacity:.7}
+.copyfield .cbtn.ok{background:var(--display);color:var(--bg);border-color:var(--display)}
 footer{padding:28px 24px;display:flex;justify-content:space-between;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line)}

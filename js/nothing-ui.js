@@ -127,3 +127,50 @@ const t_dark=document.getElementById('t-dark'),t_light=document.getElementById('
 
   /* Applied · Workspace screen: the deploying-row progress + live dot are pure CSS;
      rail nav / tabs / pagination are handled by the delegated click handler above. */
+
+  /* ===== additional dynamic components (41–46) ===== */
+  // 41 rotary knob — vertical drag, value 0–100, indicator rotates -135°…135°
+  const knob=document.getElementById('knob'),knobval=document.getElementById('knobval');
+  if(knob&&knobval){let v=50,drag=false,sy=0,sv=50;
+    const set=x=>{v=Math.max(0,Math.min(100,x));knob.style.setProperty('--a',(-135+v/100*270)+'deg');knobval.textContent=Math.round(v);};
+    set(50);
+    knob.addEventListener('pointerdown',e=>{drag=true;sy=e.clientY;sv=v;knob.setPointerCapture(e.pointerId);});
+    knob.addEventListener('pointermove',e=>{if(drag)set(sv+(sy-e.clientY)*0.7);});
+    const stop=()=>drag=false;knob.addEventListener('pointerup',stop);knob.addEventListener('pointercancel',stop);}
+
+  // 42 dot-matrix spinner — 8 dots on a ring, staggered fade
+  const dspin=document.getElementById('dspin');
+  if(dspin){for(let i=0;i<8;i++){const d=document.createElement('i');
+    d.style.transform='rotate('+(i*45)+'deg) translateY(-19px)';d.style.animationDelay=(i/8)+'s';dspin.appendChild(d);}}
+
+  // 43 verification (OTP) input — auto-advance, backspace-back, success when full
+  const otp=document.getElementById('otp');
+  if(otp){const ins=[...otp.querySelectorAll('input')];
+    ins.forEach((inp,i)=>{
+      inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'').slice(0,1);
+        if(inp.value&&i<ins.length-1)ins[i+1].focus();
+        otp.classList.toggle('done',ins.every(x=>x.value));});
+      inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value&&i>0)ins[i-1].focus();});
+    });}
+
+  // 44 live counter — count up with easing when scrolled into view
+  document.querySelectorAll('.ticker .tval[data-to]').forEach(el=>{const to=+el.getAttribute('data-to');
+    const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){let s=null;const D=1200;
+      const step=t=>{if(!s)s=t;const k=Math.min(1,(t-s)/D);const e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+        el.textContent=Math.round(to*e);if(k<1)requestAnimationFrame(step);else el.textContent=to;};
+      requestAnimationFrame(step);io.disconnect();}}),{threshold:.6});io.observe(el);});
+
+  // 45 activity stream — mono log lines appended live, newest on top
+  const stream=document.getElementById('stream');
+  if(stream){const L=[['user.auth · session opened',0],['build #482 · passed',0],['agent-core · 3 files changed',0],['rate limit · 12% used',0],['deploy · review required',1],['cache · purged',0],['webhook · delivered',0],['db · migration applied',0]];
+    let i=0;const pad=n=>String(n).padStart(2,'0');
+    const push=()=>{const d=new Date();const t=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());const[m,sig]=L[i++%L.length];
+      const row=document.createElement('div');row.className='s-l'+(sig?' sig':'');row.innerHTML='<span class="t">'+t+'</span>'+m;
+      stream.prepend(row);while(stream.children.length>7)stream.removeChild(stream.lastChild);};
+    for(let k=0;k<6;k++)push();setInterval(push,1900);}
+
+  // 46 copy field — click → "Copied" inline confirm
+  document.querySelectorAll('.cbtn[data-copy]').forEach(b=>b.addEventListener('click',()=>{
+    const t=b.getAttribute('data-copy');try{navigator.clipboard&&navigator.clipboard.writeText(t);}catch(_){}
+    const o=b.textContent;b.textContent='Copied';b.classList.add('ok');
+    setTimeout(()=>{b.textContent=o;b.classList.remove('ok');},1200);}));

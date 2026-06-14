@@ -52,7 +52,7 @@ No package manager, no compiler — copy the files into any static site, or take
 
 ## Components
 
-Foundations, forms, navigation, feedback, data display, and an applied dashboard — 40+ components, all in two themes.
+Foundations, forms, navigation, feedback, data display, dynamic controls, and an applied app screen — 46 components, all in two themes.
 
 ![Foundations — color, dot-matrix type, iconography](docs/components.png)
 
