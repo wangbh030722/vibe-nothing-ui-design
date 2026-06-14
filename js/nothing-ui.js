@@ -91,19 +91,13 @@ const t_dark=document.getElementById('t-dark'),t_light=document.getElementById('
   if(gsc){[16,24,34,48].forEach(px=>{const s=document.createElement('span');s.innerHTML=gico('gear');s.firstChild.style.setProperty('--gs',px+'px');gsc.appendChild(s);});}
   // segmented bars
   function seg(id,total,filled,color){const el=document.getElementById(id);if(!el)return;for(let i=0;i<total;i++){const s=document.createElement('i');s.style.background=i<filled?color:'var(--line)';el.appendChild(s);}}
-  // agent status dot-row in hero (5 running · 6 idle · 1 needs)
-  const ad=document.getElementById('agentdots');
-  if(ad){const cls=['run','run','run','run','run','','','','','','','need'];
-    cls.forEach(c=>{const i=document.createElement('i');if(c)i.className=c;ad.appendChild(i);});}
-  seg('card-seg',16,12,'var(--display)');
-  seg('seg-mem',22,17,'var(--display)');seg('ag-run',12,5,'var(--display)');seg('ag-idle',12,6,'var(--secondary)');seg('ag-need',12,1,'var(--accent)');seg('seg-bat',20,17,'var(--display)');
-  const sp=document.getElementById('spark');[16,30,22,34,26,32,14,28,34,20,30,24,34].forEach(h=>{const i=document.createElement('i');i.style.height=h+'px';i.style.background=h>30?'var(--display)':'var(--muted)';sp.appendChild(i);});
+  seg('card-seg',16,12,'var(--display)'); // module 13 (Cards) battery segbar
 
   /* ===== interactive components — click to activate. State changes reuse the existing
      `.on` / `.sel` inversion classes only; never introduces a new color. ===== */
   document.addEventListener('click',e=>{
     // single active among siblings: tabs, pill tabs, segmented, button group, nav bar
-    const seg=e.target.closest('.tabs span,.tabpills span,.seg button,.bgroup .btn,.navbar .i');
+    const seg=e.target.closest('.tabs span,.tabpills span,.seg button,.bgroup .btn,.navbar .i,.appscreen .rail .r-i');
     if(seg&&seg.parentElement){[...seg.parentElement.children].forEach(c=>c.classList&&c.classList.remove('on'));seg.classList.add('on');}
     // pagination — numeric pages only (skip arrows / ellipsis)
     const pg=e.target.closest('.pager a');
@@ -131,25 +125,5 @@ const t_dark=document.getElementById('t-dark'),t_light=document.getElementById('
     if(b[0])b[0].onclick=()=>v.textContent=Math.max(0,(+v.textContent||0)-1);
     if(b[1])b[1].onclick=()=>v.textContent=(+v.textContent||0)+1;});
 
-  /* ===== ambient "live" motion in the Applied console (only runs where these nodes exist) ===== */
-  const app=document.querySelector('.app');
-  if(app){
-    const pad=n=>String(n).padStart(2,'0');
-    // SESSION UPTIME counts up (mm:ss), live dot preserved
-    const ck=app.querySelector('.clock');
-    if(ck){let t=4*60+17;const col='<span class="colon" style="--pxd:8px"><i></i><i></i></span>';
-      const draw=()=>ck.innerHTML='<span class="livedot"></span>'+pad(Math.floor(t/60))+col+pad(t%60);
-      draw();setInterval(()=>{t++;draw();},1000);}
-    // CPU gauge breathes 62–84%
-    const arc=app.querySelector('.gauge svg circle:last-of-type'),gn=app.querySelector('.gauge .num b');
-    if(arc&&gn){let g=0;setInterval(()=>{g+=.18;const v=Math.round(73+Math.sin(g)*11);
-      if(gn.firstChild)gn.firstChild.textContent=v;arc.setAttribute('stroke-dashoffset',(239*(1-v/100)).toFixed(1));},900);}
-    // NOW RUNNING spark — equalizer, heights shift in place (CSS transitions smooth it)
-    const spk=app.querySelector('#spark');
-    if(spk){setInterval(()=>{[...spk.children].forEach((b,i)=>{const h=12+Math.round(Math.abs(Math.sin(Date.now()/600+i*0.6))*24);
-      b.style.height=h+'px';b.style.background=h>28?'var(--display)':'var(--muted)';});},500);}
-    // MEMORY segbar drifts ±3 cells
-    let mt=0;const memseg=document.getElementById('seg-mem');
-    if(memseg)setInterval(()=>{mt+=.5;const f=17+Math.round(Math.sin(mt)*3);
-      [...memseg.children].forEach((c,i)=>c.style.background=i<f?'var(--display)':'var(--line)');},1500);
-  }
+  /* Applied · Workspace screen: the deploying-row progress + live dot are pure CSS;
+     rail nav / tabs / pagination are handled by the delegated click handler above. */

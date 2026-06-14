@@ -438,4 +438,25 @@ td{font-family:var(--f-mono);font-size:11px;padding:9px 8px;border-bottom:1px so
 .applead .no{font-family:var(--f-display);font-weight:700;color:var(--muted)}
 .applead h2{font-family:var(--f-head);font-weight:600;font-size:28px;color:var(--display)}
 .outer{max-width:1480px;margin:0 auto;padding:0 24px}
+/* applied · workspace screen — a sidebar+content application view (not a tile dashboard) */
+.appscreen{display:flex;min-height:470px}
+.appscreen .rail{width:58px;flex-shrink:0;border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 0}
+.appscreen .rail .r-i{width:36px;height:36px;border-radius:var(--r-sm);display:grid;place-items:center;color:var(--muted);cursor:pointer;transition:color .2s var(--ease),background .2s var(--ease)}
+.appscreen .rail .r-i:hover{color:var(--primary)}
+.appscreen .rail .r-i.on{background:var(--display);color:var(--bg)}
+.appscreen .rail .sp{flex:1}
+.appscreen .main{flex:1;min-width:0;padding:20px 24px}
+.appscreen .top{display:flex;align-items:center;gap:12px;margin:8px 0 16px}
+.appscreen .top h3{font-family:var(--f-head);font-weight:600;font-size:22px;color:var(--display)}
+.appscreen .top .grow{flex:1}
+.appscreen .top .withicon{width:190px;flex-shrink:0}
+.appscreen .mstrip{display:flex;gap:10px;margin-bottom:18px}
+.appscreen .mstrip .metric{flex:1}
+.appscreen .row-live{display:inline-flex;align-items:center;gap:7px;color:var(--accent-text);font-family:var(--f-mono);font-size:10px;letter-spacing:.06em}
+.appscreen .row-live .d{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:liveblink 1.2s steps(1) infinite}
+.appscreen .dtrk{height:2px;width:96px;background:var(--line-2);position:relative;margin-top:5px;overflow:hidden}
+.appscreen .dtrk::after{content:"";position:absolute;left:0;top:0;height:100%;background:var(--accent);animation:deployscan 2.6s var(--ease) infinite}
+@keyframes deployscan{0%{width:10%}85%{width:90%}100%{width:90%}}
+.pill.sig{background:var(--accent);color:var(--accent-ink)}
+@media(max-width:720px){.appscreen{flex-direction:column}.appscreen .rail{flex-direction:row;width:auto;border-right:0;border-bottom:1px solid var(--line)}.appscreen .rail .sp{display:none}}
 footer{padding:28px 24px;display:flex;justify-content:space-between;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--line)}

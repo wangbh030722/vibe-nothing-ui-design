@@ -6,9 +6,9 @@
 [![Zero dependencies](https://img.shields.io/badge/dependencies-0-D71921.svg)](#quick-start)
 [![Live demo](https://img.shields.io/badge/demo-GitHub%20Pages-black.svg)](https://wangbh030722.github.io/vibe-nothing-ui-design/)
 
-**A Nothing-inspired UI design system for the web.**
+**A Nothing-inspired UI component library for the web.**
 
-Monochrome surfaces · round-dot type & icons · a single signal-red accent · a sparse dot field that inverts against whatever sits behind it. Zero dependencies — pure HTML, CSS custom properties, and a little vanilla JavaScript. No framework, no build step.
+Not a spec or a ruleset — actual, ready-to-use components you copy in and ship: buttons, inputs, tables, navigation, cards, dialogs, an applied app screen, and more. Monochrome surfaces · round-dot type & icons · a single signal-red accent · a sparse dot field that inverts against whatever sits behind it. Zero dependencies — pure HTML, CSS custom properties, and a little vanilla JavaScript. No framework, no build step.
 
 **[Live demo](https://wangbh030722.github.io/vibe-nothing-ui-design/demo.html)** · **[All components](https://wangbh030722.github.io/vibe-nothing-ui-design/)** · **[SPEC.md](SPEC.md)** · **[DESIGN.md](DESIGN.md)**
 
@@ -58,11 +58,9 @@ Foundations, forms, navigation, feedback, data display, and an applied dashboard
 
 ![Controls — buttons, inputs, sliders, navigation, alerts, switches](docs/controls.png)
 
-### Applied console
+### An applied screen
 
-A real-world layout: live session clock, breathing CPU gauge, an event spark, and segmented bars — the accent red appears only on genuine signals.
-
-![Applied agent console](docs/console.png)
+A complete application view assembled only from the library — sidebar navigation, breadcrumb, search, a data table with status pills, and pagination. The accent red shows up only on genuine signals (deploying, needs review). [See it live →](https://wangbh030722.github.io/vibe-nothing-ui-design/)
 
 ### Glyph Matrix
 

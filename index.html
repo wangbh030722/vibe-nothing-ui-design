@@ -473,42 +473,40 @@
 
 <!-- APPLIED -->
 <div class="appwrap"><div class="outer">
-  <div class="applead"><span class="no">▲</span><h2>Applied · Agent Console</h2></div>
+  <div class="applead"><span class="no">▲</span><h2>Applied · Workspace</h2></div>
   <div class="app">
-    <div class="titlebar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="nm">AGENT CONSOLE</span></div>
-    <div class="bento">
-      <div class="tile hero-tile">
-        <span class="label">SESSION UPTIME</span>
-        <div class="clock"><span class="livedot"></span>04<span class="colon" style="--pxd:8px"><i></i><i></i></span>17</div>
-        <div class="fui" style="font-size:18px;margin-top:16px">5 / 12 agents running</div>
-        <div class="label" style="margin-top:4px">SAT · 06 JUN 2026 · 21:34</div>
-        <div class="dotrow" id="agentdots"></div>
-        <div class="grow"></div>
-        <div class="hr"></div>
-        <div class="foot2"><div><span class="label">TOKENS / TODAY</span><div class="big">128<span class="u">K</span></div></div>
-        <div style="text-align:right"><span class="label">NEEDS DECISION</span><div class="big" style="color:var(--accent-text)">1</div></div></div>
-      </div>
-      <div class="tile" style="display:flex;flex-direction:column;align-items:center"><span class="label" style="align-self:flex-start">CPU LOAD</span>
-        <div class="gauge"><svg width="130" height="130" viewBox="0 0 96 96"><circle cx="48" cy="48" r="44" fill="none" stroke="var(--line-2)" stroke-width="3" stroke-dasharray="1.2 12.3"/><circle cx="48" cy="48" r="38" fill="none" stroke="var(--line)" stroke-width="3"/><circle cx="48" cy="48" r="38" fill="none" stroke="var(--display)" stroke-width="3" stroke-dasharray="239" stroke-dashoffset="65" transform="rotate(-90 48 48)"/></svg><div class="num"><b>73<span class="pct">%</span></b></div></div>
-      </div>
-      <div class="tile"><span class="label">MEMORY</span><div class="big" style="margin-top:12px">12.4<span class="u">GB</span></div><div class="label" style="margin-top:6px">/ 16 GB USED</div><div class="segbar" id="seg-mem" style="margin-top:14px"></div></div>
-      <div class="tile run" style="grid-column:2/span 2"><span class="label">NOW RUNNING</span>
-        <div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="title">agent-core</div><div class="label" style="margin-top:5px">REFACTOR · AUTH MODULE</div></div><div class="spark" id="spark"></div></div>
-        <div class="trk"></div><div style="display:flex;justify-content:space-between;margin-top:8px"><span class="faint">02:34</span><span class="muted">~04:47</span></div>
-      </div>
-      <div class="tile"><span class="label">QUICK SETTINGS</span><div style="margin-top:8px">
-        <div class="qrow"><span class="l">Auto-approve</span><span class="meta label">TRUSTED</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
-        <div class="qrow"><span class="l">Sound alerts</span><span class="meta label">ZELDA</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
-        <div class="qrow"><span class="l">Do not disturb</span><span class="meta label">OFF</span><div class="switch" onclick="this.classList.toggle('on')"></div></div></div>
-      </div>
-      <div class="tile"><span class="label">AGENTS · 12 TOTAL</span><div style="margin-top:16px">
-        <div class="srow"><div class="seg-head"><span class="label">RUNNING</span><span class="v">5</span></div><div class="segbar short" id="ag-run"></div></div>
-        <div class="srow"><div class="seg-head"><span class="label">IDLE</span><span class="v">6</span></div><div class="segbar short" id="ag-idle"></div></div>
-        <div class="srow"><div class="seg-head"><span class="label" style="color:var(--accent-text)">NEEDS INPUT</span><span class="v" style="color:var(--accent-text)">1</span></div><div class="segbar short" id="ag-need"></div></div></div>
-      </div>
-      <div class="tile"><span class="label">STATUS</span>
-        <div class="chips"><span class="chip" style="border-color:var(--success);color:var(--success)">● CONNECTED</span><span class="chip on">↑ 1 UPDATE</span></div>
-        <div class="big">87<span class="u" style="font-family:var(--f-display);font-size:16px">%</span></div><div class="segbar" id="seg-bat" style="margin-top:12px"></div><div class="label" style="margin-top:10px">~ 4H 23M REMAINING</div>
+    <div class="titlebar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="nm">WORKSPACE</span></div>
+    <div class="appscreen">
+      <nav class="rail">
+        <span class="r-i on"><svg class="ico sm"><use href="#i-grid"/></svg></span>
+        <span class="r-i"><svg class="ico sm"><use href="#i-search"/></svg></span>
+        <span class="r-i"><svg class="ico sm"><use href="#i-bell"/></svg></span>
+        <span class="r-i"><svg class="ico sm"><use href="#i-user"/></svg></span>
+        <span class="sp"></span>
+        <span class="r-i"><svg class="ico sm"><use href="#i-gear"/></svg></span>
+      </nav>
+      <div class="main">
+        <nav class="crumb"><a href="#">Workspace</a><span class="sl">/</span><span class="cur">Projects</span></nav>
+        <div class="top">
+          <h3>Projects</h3>
+          <span class="grow"></span>
+          <div class="withicon"><svg class="ico sm"><use href="#i-search"/></svg><input class="inp" placeholder="Search"></div>
+          <button class="btn btn-primary"><svg class="ico sm"><use href="#i-plus"/></svg>New</button>
+        </div>
+        <div class="mstrip">
+          <div class="metric"><div class="label">Projects</div><div class="v">24</div></div>
+          <div class="metric"><div class="label">Active</div><div class="v">18</div></div>
+          <div class="metric"><div class="label" style="color:var(--accent-text)">Needs review</div><div class="v" style="color:var(--accent-text)">1</div></div>
+        </div>
+        <div class="tabs"><span class="on">All</span><span>Active</span><span>Archived</span></div>
+        <table style="margin-top:14px"><thead><tr><th>Name</th><th>Status</th><th>Updated</th><th></th></tr></thead><tbody>
+          <tr><td>auth-service</td><td><span class="pill a">Active</span></td><td>2m ago</td><td><svg class="ico sm"><use href="#i-more"/></svg></td></tr>
+          <tr><td>web-dashboard</td><td><span class="row-live"><span class="d"></span>DEPLOYING</span><div class="dtrk"></div></td><td>now</td><td><svg class="ico sm"><use href="#i-more"/></svg></td></tr>
+          <tr><td>design-tokens</td><td><span class="pill sig">Needs review</span></td><td>12m ago</td><td><svg class="ico sm"><use href="#i-more"/></svg></td></tr>
+          <tr><td>billing-api</td><td><span class="pill i">Idle</span></td><td>1h ago</td><td><svg class="ico sm"><use href="#i-more"/></svg></td></tr>
+          <tr><td>docs-site</td><td><span class="pill a">Active</span></td><td>3h ago</td><td><svg class="ico sm"><use href="#i-more"/></svg></td></tr>
+        </tbody></table>
+        <div class="pager" style="margin-top:16px"><a><svg class="ico sm"><use href="#i-chev-l"/></svg></a><a class="on">1</a><a>2</a><a>3</a><a><svg class="ico sm"><use href="#i-chev-r"/></svg></a></div>
       </div>
     </div>
   </div>
