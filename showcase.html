@@ -93,6 +93,15 @@ main{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:s
 .qr{display:flex;align-items:center;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--line)}
 .qr:last-child{border:0}.qr .l{font-family:var(--f-ui);font-size:13px;color:var(--primary)}
 .presets{display:flex;gap:7px;margin-top:9px}
+/* icons sprinkled through the dashboard */
+.lab,.ttl{display:inline-flex;align-items:center;gap:6px}
+.lab .ico,.ttl .ico{width:12px;height:12px;flex-shrink:0;opacity:.85}
+.ti{width:14px;height:14px;vertical-align:-3px;margin-right:8px;color:var(--secondary)}
+.qr .l{display:inline-flex;align-items:center;gap:8px}
+.qr .l .ico{width:14px;height:14px;color:var(--secondary)}
+.icobtn{display:inline-flex;align-items:center;gap:12px;color:var(--muted)}
+.icobtn .ico{width:16px;height:16px;cursor:pointer}
+.icobtn .ico:hover{color:var(--primary)}
 .stream.show{height:62px}
 
 /* ===== generic-AI skin (.ai) — SAME structure, over-styled look ===== */
@@ -126,6 +135,27 @@ main{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:s
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-signal" viewBox="0 0 24 24"><path d="M3 18h2v3H3zM8 13h2v8H8zM13 9h2v12h-2zM18 5h2v16h-2z"/></symbol>
+<symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.5a16 16 0 0 1 20 0M5 12a11 11 0 0 1 14 0M8 15.5a6 6 0 0 1 8 0"/><circle cx="12" cy="19" r="1"/></symbol>
+<symbol id="i-battery" viewBox="0 0 24 24"><rect x="3" y="8" width="16" height="8" rx="2"/><path d="M21 11v2"/><path d="M6 11v2"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6M10 20a2 2 0 0 0 4 0"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></symbol>
+<symbol id="i-chev-r" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+<symbol id="i-chev-l" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></symbol>
+<symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V6l10-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8 11l8-4M8 13l8 4"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+<symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+</defs></svg>
 <div class="brand"><span class="w">VIBE·NOTHING-UI</span><span class="s">LIVE SHOWCASE</span></div>
 
 <main id="main">
@@ -149,46 +179,47 @@ main{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:s
 /* ---- one shared dashboard, rendered into both layers ---- */
 const DASH=`
 <div class="dash">
-  <div class="topbar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><span class="nm">Control Center</span>
+  <div class="topbar"><span class="tl"></span><span class="tl"></span><span class="tl"></span><svg class="ico" style="width:16px;height:16px"><use href="#i-grid"/></svg><span class="nm">Control Center</span>
     <div class="nv"><span class="on">Overview</span><span>Activity</span><span>Settings</span></div>
     <div class="rt"><div class="withicon" style="width:140px"><svg class="ico sm"><use href="#i-search"/></svg><input class="inp" placeholder="Search"></div>
+      <span class="icobtn"><svg class="ico"><use href="#i-bell"/></svg><svg class="ico"><use href="#i-gear"/></svg></span>
       <div class="avg"><div class="ava">A</div><div class="ava">B</div><div class="ava more">+3</div></div>
       <div class="tg"><button class="lt on">LIGHT</button><button class="dk">DARK</button></div></div>
   </div>
   <div class="dgrid">
-    <div class="cell c-focal"><span class="lab">Session</span>
+    <div class="cell c-focal"><span class="lab"><svg class="ico"><use href="#i-clock"/></svg>Session</span>
       <div class="clocknum"><span class="livedot"></span><span class="hh">00</span>:<span class="mm">00</span></div>
       <span class="lab" style="margin-top:6px">MON · 15 JUN 2026</span>
       <div style="flex:1"></div>
       <div style="display:flex;justify-content:space-between;align-items:flex-end"><div><span class="lab">Tokens</span><div class="dnum tv" data-to="1284" style="font-size:26px;margin-top:5px">0<span class="u" style="font-family:var(--f-mono);font-size:11px;color:var(--secondary)">K</span></div></div>
         <div style="text-align:right"><span class="lab">Uptime</span><div class="dnum" style="font-size:26px;margin-top:5px">99.9<span class="u" style="font-family:var(--f-mono);font-size:11px;color:var(--secondary)">%</span></div></div></div>
     </div>
-    <div class="cell metric c-m1"><span class="lab">Requests / min</span><div class="dnum v tv" data-to="4820">0</div><div class="d">↑ 8%</div></div>
-    <div class="cell metric c-m2"><span class="lab">p95 latency</span><div class="dnum v tv" data-to="142">0<span class="u">ms</span></div><div class="d">↓ 11%</div></div>
-    <div class="cell metric c-rev"><span class="lab">Needs review</span><div class="dnum v" style="color:var(--accent-text)">2</div><div class="d" style="color:var(--accent-text)">action required</div></div>
-    <div class="cell c-glyph"><span class="lab">Glyph display</span>
+    <div class="cell metric c-m1"><span class="lab"><svg class="ico"><use href="#i-signal"/></svg>Requests / min</span><div class="dnum v tv" data-to="4820">0</div><div class="d">↑ 8%</div></div>
+    <div class="cell metric c-m2"><span class="lab"><svg class="ico"><use href="#i-bolt"/></svg>p95 latency</span><div class="dnum v tv" data-to="142">0<span class="u">ms</span></div><div class="d">↓ 11%</div></div>
+    <div class="cell metric c-rev"><span class="lab"><svg class="ico"><use href="#i-bell"/></svg>Needs review</span><div class="dnum v" style="color:var(--accent-text)">2</div><div class="d" style="color:var(--accent-text)">action required</div></div>
+    <div class="cell c-glyph"><span class="lab"><svg class="ico"><use href="#i-grid"/></svg>Glyph display</span>
       <div class="gwrap"><div class="gm" data-glyph="smiley"></div></div>
     </div>
     <div class="cell c-table">
-      <div style="display:flex;align-items:center"><span class="ttl">Services</span><span style="flex:1"></span>
+      <div style="display:flex;align-items:center"><span class="ttl"><svg class="ico"><use href="#i-grid"/></svg>Services</span><span style="flex:1"></span>
         <div class="tabs" style="border:0;gap:14px"><span class="on">All</span><span>Active</span><span>Errored</span></div></div>
       <table><thead><tr><th>Name</th><th>Status</th><th>Region</th><th>Updated</th></tr></thead><tbody>
-        <tr><td>auth-service</td><td><span class="pill a">Active</span></td><td>us-east</td><td class="tnum">2m</td></tr>
-        <tr><td>web-dashboard</td><td><span class="row-live"><span class="d"></span>DEPLOYING</span><div class="dtrk"></div></td><td>eu-west</td><td class="tnum">now</td></tr>
-        <tr><td>billing-api</td><td><span class="pill sig">Needs review</span></td><td>us-east</td><td class="tnum">12m</td></tr>
-        <tr><td>media-cdn</td><td><span class="pill i">Idle</span></td><td>global</td><td class="tnum">3h</td></tr>
+        <tr><td><svg class="ico ti"><use href="#i-lock"/></svg>auth-service</td><td><span class="pill a">Active</span></td><td>us-east</td><td class="tnum">2m</td></tr>
+        <tr><td><svg class="ico ti"><use href="#i-grid"/></svg>web-dashboard</td><td><span class="row-live"><span class="d"></span>DEPLOYING</span><div class="dtrk"></div></td><td>eu-west</td><td class="tnum">now</td></tr>
+        <tr><td><svg class="ico ti"><use href="#i-share"/></svg>billing-api</td><td><span class="pill sig">Needs review</span></td><td>us-east</td><td class="tnum">12m</td></tr>
+        <tr><td><svg class="ico ti"><use href="#i-eye"/></svg>media-cdn</td><td><span class="pill i">Idle</span></td><td>global</td><td class="tnum">3h</td></tr>
       </tbody></table>
       <div class="pager" style="margin-top:10px"><a><svg class="ico sm"><use href="#i-chev-l"/></svg></a><a class="on">1</a><a>2</a><a>3</a><a><svg class="ico sm"><use href="#i-chev-r"/></svg></a></div>
     </div>
-    <div class="cell c-gain"><span class="lab">Output gain</span>
+    <div class="cell c-gain"><span class="lab"><svg class="ico"><use href="#i-gear"/></svg>Output gain</span>
       <div class="gainrow"><div class="knob"><span class="ind"></span></div>
         <div style="flex:1"><div class="knobval">50</div><div class="track-fill" style="margin-top:10px"><i style="width:50%"></i><b style="left:50%"></b></div></div></div>
     </div>
-    <div class="cell c-level"><span class="lab">Channel level</span><div class="lvl"></div></div>
-    <div class="cell c-stream"><span class="lab">Activity stream</span><div class="stream show"></div></div>
-    <div class="cell c-set"><span class="lab">Quick settings</span>
-      <div class="qr"><span class="l">Auto-deploy</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
-      <div class="qr"><span class="l">Alerts</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+    <div class="cell c-level"><span class="lab"><svg class="ico"><use href="#i-music"/></svg>Channel level</span><div class="lvl"></div></div>
+    <div class="cell c-stream"><span class="lab"><svg class="ico"><use href="#i-more"/></svg>Activity stream</span><div class="stream show"></div></div>
+    <div class="cell c-set"><span class="lab"><svg class="ico"><use href="#i-gear"/></svg>Quick settings</span>
+      <div class="qr"><span class="l"><svg class="ico"><use href="#i-share"/></svg>Auto-deploy</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
+      <div class="qr"><span class="l"><svg class="ico"><use href="#i-bell"/></svg>Alerts</span><div class="switch on" onclick="this.classList.toggle('on')"></div></div>
       <div class="presets"><span class="chip on">PROD</span><span class="chip">STAGING</span><span class="chip">DEV</span></div>
     </div>
   </div>
