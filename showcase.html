@@ -8,7 +8,17 @@
 <style>
 html,body{height:100%}
 body{overflow:hidden;background:#0a0a0a}
-.stage{height:100vh;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;cursor:grab}
+/* tokens.css ships dark as :root default + a [data-theme=light] override, but no [data-theme=dark]
+   rule — so a dark region inside a light page needs the dark palette restated here. */
+[data-theme="dark"]{
+  --bg:#000;--surface:#0C0C0C;--raised:#171717;--line:#262626;--line-2:#3A3A3A;
+  --muted:#5A5A5A;--secondary:#8C8C8C;--primary:#EDEDED;--display:#FFF;
+  --accent:#D71921;--accent-ink:#FFFFFF;--accent-text:#FF4438;
+  --success:#7BE38A;--warning:#F2C94C;--error:#FF5247;
+  --dotbg:rgba(255,255,255,.48);--glass:rgba(16,16,16,.9);--glass-brd:rgba(255,255,255,.09);
+}
+main{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.stage{height:100vh;position:relative;overflow:hidden;user-select:none;-webkit-user-select:none;cursor:grab;scroll-snap-align:start}
 .stage:active{cursor:grabbing}
 .brand{position:fixed;top:15px;left:20px;z-index:60;display:flex;gap:10px;align-items:baseline;mix-blend-mode:difference;color:#fff;pointer-events:none}
 .brand .w{font-family:var(--f-display);font-weight:500;font-size:14px;letter-spacing:.06em}
@@ -29,7 +39,11 @@ body{overflow:hidden;background:#0a0a0a}
 /* layer backgrounds */
 .cmp-layer.a{background:linear-gradient(155deg,#eef2ff,#faf5ff 55%,#fdf2f8)}
 .cmp-layer.b{background:var(--bg)}
-.cmp-layer.b .dots{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(var(--dotbg) 1.3px,transparent 1.7px);background-size:120px 120px;mix-blend-mode:difference}
+.dots{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(var(--dotbg) 1.3px,transparent 1.7px);background-size:120px 120px;mix-blend-mode:difference}
+/* stage 2 = the same Vibe UI, dark vs light (both Nothing-styled) */
+#s2 .cmp-layer.a{background:var(--bg)}
+#s2 .tg{display:none}
+.scrollhint{position:absolute;bottom:16px;right:24px;z-index:40;mix-blend-mode:difference;color:#fff;font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;pointer-events:none}
 
 /* ===== shared dashboard window (identical structure both sides) ===== */
 .dash{position:relative;z-index:1;width:min(980px,88vw);border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--line)}
@@ -113,12 +127,22 @@ body{overflow:hidden;background:#0a0a0a}
 <body>
 <div class="brand"><span class="w">VIBE·NOTHING-UI</span><span class="s">LIVE SHOWCASE</span></div>
 
+<main id="main">
 <section class="stage" id="s1" style="--cut:50%">
   <div class="cmp-layer a ai"><div class="host"></div><span class="corner l" style="background:linear-gradient(90deg,#6366f1,#a855f7);color:#fff;font-family:system-ui;font-weight:700">✨ Generic AI</span></div>
   <div class="cmp-layer b"><div class="dots"></div><div class="host"></div><span class="corner r nt">Vibe-Nothing-UI</span></div>
   <div class="divider"><span class="grip">◂▸</span></div>
   <div class="hint">DRAG TO COMPARE · SAME PRODUCT, ONE DESIGN DIFFERENCE</div>
+  <div class="scrollhint">SCROLL ▾ · DARK / LIGHT</div>
 </section>
+
+<section class="stage" id="s2" style="--cut:50%">
+  <div class="cmp-layer a" data-theme="dark"><div class="dots"></div><div class="host"></div><span class="corner l" style="background:#fff;color:#000">Dark</span></div>
+  <div class="cmp-layer b" data-theme="light"><div class="dots"></div><div class="host"></div><span class="corner r" style="background:#000;color:#fff">Light</span></div>
+  <div class="divider"><span class="grip">◂▸</span></div>
+  <div class="hint">DRAG · DARK ⟷ LIGHT — SAME UI, ONE ATTRIBUTE</div>
+</section>
+</main>
 
 <script>
 /* ---- one shared dashboard, rendered into both layers ---- */
@@ -235,21 +259,24 @@ document.querySelectorAll('.cmp-layer.b .tg').forEach(tg=>{const lt=tg.querySele
   dk.onclick=e=>{e.stopPropagation();dash.setAttribute('data-theme','dark');dk.classList.add('on');lt.classList.remove('on');};});
 
 /* light per-section interactions (tabs / pager / chips) scoped to stage */
-document.getElementById('s1').addEventListener('click',e=>{
+document.addEventListener('click',e=>{
   const t=e.target.closest('.nv span,.tabs span');if(t){[...t.parentElement.children].forEach(c=>c.classList.remove('on'));t.classList.add('on');}
   const pg=e.target.closest('.pager a');if(pg&&/^\d+$/.test(pg.textContent.trim())){pg.parentElement.querySelectorAll('a').forEach(a=>a.classList.remove('on'));pg.classList.add('on');}
   const ch=e.target.closest('.chip');if(ch){[...ch.parentElement.children].forEach(c=>c.classList.remove('on'));ch.classList.add('on');}
 });
 
-/* draggable compare divider */
-const s1=document.getElementById('s1');let cdrag=false;
-const setCut=p=>{p=Math.max(6,Math.min(94,p));s1.style.setProperty('--cut',p+'%');};
-s1.addEventListener('pointerdown',e=>{if(e.target.closest('.knob,input,.switch,a,.nv span,.tabs span,.chip,.tg'))return;cdrag=true;s1.setPointerCapture(e.pointerId);setCut(e.clientX/innerWidth*100);});
-s1.addEventListener('pointermove',e=>{if(cdrag)setCut(e.clientX/innerWidth*100);});
-s1.addEventListener('pointerup',()=>cdrag=false);s1.addEventListener('pointercancel',()=>cdrag=false);
+/* draggable compare divider — per stage */
 const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
-(function(){const seq=[[50,78],[78,24],[24,50]];let i=0;function leg(){if(i>=seq.length)return;const[a,b]=seq[i++];const t0=performance.now(),D=760;
-  (function f(n){const k=Math.min(1,(n-t0)/D);setCut(a+(b-a)*ease(k));k<1?requestAnimationFrame(f):leg();})(t0);}setTimeout(leg,500);})();
+document.querySelectorAll('.stage').forEach(st=>{let cdrag=false;
+  const setCut=p=>{p=Math.max(6,Math.min(94,p));st.style.setProperty('--cut',p+'%');};
+  st.addEventListener('pointerdown',e=>{if(e.target.closest('.knob,input,.switch,a,.nv span,.tabs span,.chip,.tg'))return;cdrag=true;st.setPointerCapture(e.pointerId);setCut(e.clientX/innerWidth*100);});
+  st.addEventListener('pointermove',e=>{if(cdrag)setCut(e.clientX/innerWidth*100);});
+  st.addEventListener('pointerup',()=>cdrag=false);st.addEventListener('pointercancel',()=>cdrag=false);
+  st._sweep=()=>{const seq=[[50,78],[78,24],[24,50]];let i=0;(function leg(){if(i>=seq.length)return;const[a,b]=seq[i++];const t0=performance.now(),D=760;
+    (function f(n){const k=Math.min(1,(n-t0)/D);setCut(a+(b-a)*ease(k));k<1?requestAnimationFrame(f):leg();})(t0);})();};});
+/* auto-sweep each stage once when it scrolls into view */
+const swObs=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting&&!en.target._swept){en.target._swept=1;setTimeout(()=>en.target._sweep&&en.target._sweep(),400);}}),{threshold:.55});
+document.querySelectorAll('.stage').forEach(s=>swObs.observe(s));
 </script>
 </body>
 </html>
